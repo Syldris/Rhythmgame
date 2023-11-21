@@ -5,7 +5,6 @@ using UnityEngine;
 public class Judgment_Text : MonoSigleton<Judgment_Text>
 {
     [SerializeField]private RectTransform Recform;
-    
 
     private void Start()
     {
@@ -15,6 +14,7 @@ public class Judgment_Text : MonoSigleton<Judgment_Text>
     }
     private void Update()
     {
+        
         Recform.Translate(new Vector3(0, 0.2f, 0));
     }
     

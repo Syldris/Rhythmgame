@@ -7,6 +7,10 @@ public class Gamemanager : MonoSigleton<Gamemanager>
     [SerializeField] public float Note_Speed;
     [SerializeField] private List<GameObject> instantiateObjects;
     [SerializeField] private GameObject Judgement_line;
+    public bool Text_instantiate;
+    public bool Judgement_instantiate;
+    public int Combo;
+
 
     private void Start()
     {
@@ -38,4 +42,17 @@ public class Gamemanager : MonoSigleton<Gamemanager>
             Judgement_line.transform.GetChild(0).localScale = new Vector3(Note_Speed / 5, 0.5f, 1);
         }
     }
+
+    public void Combo_Up()
+    {
+        Combo += 1;
+    }
+
+    public void Combo_reset()
+    {
+        Combo = 0;
+    }
+
+
+
 }
