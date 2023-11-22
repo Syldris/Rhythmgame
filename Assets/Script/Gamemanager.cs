@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 [SerializeField]
 public class Gamemanager : MonoSigleton<Gamemanager>
 {
     [SerializeField] public float Note_Speed;
     [SerializeField] private List<GameObject> instantiateObjects;
     [SerializeField] private GameObject Judgement_line;
+    [SerializeField] private Text Score_Text;
+    [SerializeField] private int Player_HP;
+    [SerializeField] private Image HP_image;
     public bool Text_instantiate;
     public bool Judgement_instantiate;
     public int Combo;
+    public int Score;
 
 
     private void Start()
@@ -53,6 +59,69 @@ public class Gamemanager : MonoSigleton<Gamemanager>
         Combo = 0;
     }
 
+    public void Perfect_Score()
+    {
+        Score += 500 * (Combo + 100) / 100;
+        Score_Text.text = Score.ToString();
+    }
 
+    public void Great_Score()
+    {
+        Score += 300 * (Combo + 100) / 100;
+        Score_Text.text = Score.ToString();
+    }
+
+    public void Good_Score()
+    {
+        Score += 200 * (Combo + 100) / 100;
+        Score_Text.text = Score.ToString();
+    }
+
+    public void Bad_Score()
+    {
+        Score += 100 * (Combo + 100) / 100;
+        Score_Text.text = Score.ToString();
+    }
+
+    public void Score_Reset()
+    {
+        Score = 0;
+    }
+
+    public void Player_HP_Bad_Down()
+    {
+        Player_HP -= 25;
+        Player_HP_reorder();
+        Player_GameOver();
+    }
+
+    public void Player_HP_Miss_Down()
+    {
+        Player_HP -= 50;
+        Player_HP_reorder();
+        Player_GameOver();
+    }
+
+    public void Player_HP_Reset()
+    {
+        Player_HP = 1000;
+        Player_HP_reorder();
+    }
+
+    public void Player_HP_reorder()
+    {
+        HP_image.fillAmount = Player_HP * 0.001f;
+    }
+
+    public void Player_GameOver()
+    {
+        if(Player_HP <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+            Player_HP_Reset();
+            Combo_reset();
+            Score_Reset();
+        }
+    }
 
 }

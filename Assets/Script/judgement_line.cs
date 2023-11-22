@@ -33,18 +33,23 @@ public class judgement_line : MonoSigleton<judgement_line>
             if (collision.CompareTag("Perfect"))
             {
                 StartCoroutine(NotePlayCoroutine("Perfect", collision.gameObject,Perfect));
+                Gamemanager.Instance.Perfect_Score();
             }
             else if (collision.CompareTag("great"))
             {
                 StartCoroutine(NotePlayCoroutine("Great", collision.gameObject,Great));
+                Gamemanager.Instance.Great_Score();
             }
             else if (collision.CompareTag("Good"))
             {
                 StartCoroutine(NotePlayCoroutine("Good", collision.gameObject,Good));
+                Gamemanager.Instance.Good_Score();
             }
             else if (collision.CompareTag("Bad"))
             {
                 StartCoroutine(NotePlayCoroutine("Bad", collision.gameObject,Bad));
+                Gamemanager.Instance.Bad_Score();
+                Gamemanager.Instance.Player_HP_Bad_Down();
             }
         }
 
@@ -75,6 +80,7 @@ public class judgement_line : MonoSigleton<judgement_line>
         Gamemanager.Instance.Combo_reset();
         Debug.Log(judgement);
         NoteClick = false;
+        Gamemanager.Instance.Player_HP_Miss_Down();
         yield break;
     }
 

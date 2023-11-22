@@ -4,8 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Scene_Manager : MonoBehaviour
 {
-    public void SceneMove()
+    public void SceneMove_Mainmenu()
     {
-        SceneManager.LoadScene("Mainmenu");
+        SceneManager.LoadScene("Main_Menu");
+    }
+
+    public void Game_Exit()
+    {
+        Application.Quit();
     }
 }
