@@ -12,10 +12,9 @@ public class Judgment_Text : MonoSigleton<Judgment_Text>
         Recform = this.gameObject.GetComponent<RectTransform>();
         
     }
-    private void Update()
+    private void FixedUpdate()
     {
-        
-        Recform.Translate(new Vector3(0, 0.2f, 0));
+        Recform.Translate(new Vector3(0, 0.05f, 0));
     }
     
     IEnumerator DelayDestroy()

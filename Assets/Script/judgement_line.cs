@@ -15,6 +15,9 @@ public class judgement_line : MonoSigleton<judgement_line>
     [SerializeField] private GameObject Bad;
     [SerializeField] private GameObject Miss;
     [SerializeField] private GameObject GameCanvas;
+    [SerializeField] public int line_number;
+    [SerializeField] private AudioSource HitSound;
+    [SerializeField] private AudioSource SmallHitSound;
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -25,31 +28,53 @@ public class judgement_line : MonoSigleton<judgement_line>
         }
     }
 
-    
+    private void Start()
+    {
+        if (ManagerMent.instance.Cheat == true)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     private void Update()
     {
-        if (NoteClick)
+        if (NoteClick && collision != null)
         {
-            if (collision.CompareTag("Perfect"))
+            if (collision.CompareTag("Heal"))
+            {
+                StartCoroutine(NotePlayCoroutine("Heal", collision.gameObject, Perfect));
+                Gamemanager.Instance.Perfect_Score();
+                Gamemanager.Instance.Player_HP_Heal();
+                Scoremanager.Instance.Perfect_plus();
+            }
+            else if (collision.CompareTag("Perfect"))
             {
                 StartCoroutine(NotePlayCoroutine("Perfect", collision.gameObject,Perfect));
                 Gamemanager.Instance.Perfect_Score();
+                Scoremanager.Instance.Perfect_plus();
             }
             else if (collision.CompareTag("great"))
             {
                 StartCoroutine(NotePlayCoroutine("Great", collision.gameObject,Great));
                 Gamemanager.Instance.Great_Score();
+                Scoremanager.Instance.Great_plus();
             }
             else if (collision.CompareTag("Good"))
             {
                 StartCoroutine(NotePlayCoroutine("Good", collision.gameObject,Good));
                 Gamemanager.Instance.Good_Score();
+                Scoremanager.Instance.Good_plus();
             }
             else if (collision.CompareTag("Bad"))
             {
                 StartCoroutine(NotePlayCoroutine("Bad", collision.gameObject,Bad));
                 Gamemanager.Instance.Bad_Score();
                 Gamemanager.Instance.Player_HP_Bad_Down();
+                Scoremanager.Instance.Bad_plus();
+            }
+            else
+            {
+
             }
         }
 
@@ -59,7 +84,7 @@ public class judgement_line : MonoSigleton<judgement_line>
     {
         Instantiate(Effect, this.gameObject.transform);
         Instantiate(effectobject, GameCanvas.transform);
-        if(judgement == "Perfect" || judgement == "Great")
+        if(judgement == "Heal" || judgement == "Perfect" || judgement == "Great")
         {
             Gamemanager.Instance.Combo_Up();
             Instantiate(Combo_Object, GameCanvas.transform);
@@ -71,6 +96,7 @@ public class judgement_line : MonoSigleton<judgement_line>
         Debug.Log(judgement);
         Destroy(collision.gameObject.transform.parent.gameObject.transform.parent.gameObject);
         NoteClick = false;
+        HitSound.Play();
         yield break;
     }
 
@@ -81,8 +107,20 @@ public class judgement_line : MonoSigleton<judgement_line>
         Debug.Log(judgement);
         NoteClick = false;
         Gamemanager.Instance.Player_HP_Miss_Down();
+        Scoremanager.Instance.Miss_plus();
         yield break;
     }
 
-
+    public IEnumerator smallNote_clear(GameObject smallnote)
+    {
+        Instantiate(Effect, this.gameObject.transform);
+        Instantiate(Perfect, GameCanvas.transform);
+        Gamemanager.Instance.Combo_Up();
+        Instantiate(Combo_Object, GameCanvas.transform);
+        Gamemanager.Instance.Perfect_Score();
+        Destroy(smallnote.gameObject);
+        Scoremanager.Instance.Perfect_plus();
+        SmallHitSound.Play();
+        yield break;
+    }
 }

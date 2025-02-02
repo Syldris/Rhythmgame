@@ -11,6 +11,10 @@ TagManager:
   - Bad
   - Judgment
   - Miss
+  - smallNote
+  - Note_JUDGE
+  - Heal
+  - Cheat
   layers:
   - Default
   - TransparentFX
@@ -18,16 +22,16 @@ TagManager:
   - 
   - Water
   - UI
+  - Miss
+  - smallNote
+  - judgement
+  - Perfect
+  - Great
+  - Good
+  - Bad
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - judgement_Line
+  - Note_raycast
   - 
   - 
   - 

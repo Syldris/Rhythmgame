@@ -13,4 +13,9 @@ public class Scene_Manager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void SceneMove_ReGame()
+    {
+        ManagerMent.instance.GameStart(ManagerMent.instance.order);
+    }
 }

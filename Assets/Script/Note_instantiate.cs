@@ -5,23 +5,27 @@ using UnityEngine;
 public class Note_instantiate : MonoBehaviour
 {
     [SerializeField] private GameObject Note;
+    [SerializeField] private GameObject smallNote;
+    [SerializeField] private GameObject HealNote;
     public int instantiate_num;
     public float time;
+    public bool Notebool;
 
-    private void Update()
+    public void Ins_Note()
     {
-        time += Time.deltaTime;
-
-        if (time > 1.0f)
-        {
-            time = 0.0f;
-            Noteinstantiate();
-        }
-    }
-    void Noteinstantiate()
-    {
-        Instantiate(Note, this.gameObject.transform);
-
+        var note = ObjectPool.instance.Pool.Get();
+        note.transform.position = this.gameObject.transform.position;
     }
 
+    public void Small_Ins_Note()
+    {
+        var Smallnote = SmallObjectPool.instance.Pool.Get();
+        Smallnote.transform.position = this.gameObject.transform.position;
+        Smallnote.transform.GetChild(0).GetComponent<smallNote>().Note_number = instantiate_num;
+    }
+
+    public void Heal_Ins_Note()
+    {
+        Instantiate(HealNote,this.gameObject.transform);
+    }
 }

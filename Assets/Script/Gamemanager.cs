@@ -8,36 +8,113 @@ public class Gamemanager : MonoSigleton<Gamemanager>
 {
     [SerializeField] public float Note_Speed;
     [SerializeField] private List<GameObject> instantiateObjects;
-    [SerializeField] private GameObject Judgement_line;
+    [SerializeField] private GameObject Note;
+    [SerializeField] private GameObject SmallNote;
     [SerializeField] private Text Score_Text;
     [SerializeField] private int Player_HP;
     [SerializeField] private Image HP_image;
+    public List<judgement_line> judgement_lines;
+    public List<Cheat_line> Cheat_lines;
+    public List<bool> KeyDowncheck;
     public bool Text_instantiate;
     public bool Judgement_instantiate;
     public int Combo;
     public int Score;
+    public GameObject SemyeongSong;
+    public GameObject NyanCat;
+    public GameObject BrainPower;
+    public GameObject QueenAluett;
+    public GameObject FreedomDive;
+    public AudioSource hit;
+    public AudioSource smallhit;
 
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.S))
+        {
+            KeyDowncheck[0] = true;
+        }
+        else
+        {
+            KeyDowncheck[0] = false;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            KeyDowncheck[1] = true;
+        }
+        else
+        {
+            KeyDowncheck[1] = false;
+        }
+        if (Input.GetKey(KeyCode.F))
+        {
+            KeyDowncheck[2] = true;
+        }
+        else
+        {
+            KeyDowncheck[2] = false;
+        }
+        if (Input.GetKey(KeyCode.J))
+        {
+            KeyDowncheck[3] = true;
+        }
+        else
+        {
+            KeyDowncheck[3] = false;
+        }
+        if (Input.GetKey(KeyCode.K))
+        {
+            KeyDowncheck[4] = true;
+        }
+        else
+        {
+            KeyDowncheck[4] = false;
+        }
+        if (Input.GetKey(KeyCode.L))
+        {
+            KeyDowncheck[5] = true;
+        }
+        else
+        {
+            KeyDowncheck[5] = false;
+        }
+    }
 
     private void Start()
     {
+        Note_Speed = ManagerMent.instance.Note_Speed;
         NoteSpeed_by_change_point();
+        music_start();
+        sound_Up();
     }
 
-    public void NoteSpeed_plus()
+    public void sound_Up()
     {
-        Note_Speed += 0.1f;
+        hit.volume = 0.2f * ManagerMent.instance.SE;
+        smallhit.volume = 0.2f * ManagerMent.instance.SE;
     }
-    public void NoteSpeed_plus_plus()
+
+    public void music_start()
     {
-        Note_Speed += 1.0f;
-    }
-    public void NoteSpeed_minus()
-    {
-        Note_Speed -= 0.1f;
-    }
-    public void NoteSpeed_minus_minus()
-    {
-        Note_Speed -= 1.0f;
+        switch(ManagerMent.instance.order)
+        {
+            case 0:
+                SemyeongSong.SetActive(true);
+                break;
+            case 1:
+                NyanCat.SetActive(true);
+                break;
+            case 2:
+                BrainPower.SetActive(true);
+                break;
+            case 3:
+                QueenAluett.SetActive(true);
+                break;
+            case 4:
+                FreedomDive.SetActive(true);
+                break;
+        }
     }
 
     public void NoteSpeed_by_change_point()
@@ -45,7 +122,7 @@ public class Gamemanager : MonoSigleton<Gamemanager>
         for(int i = 0; i < 6; i++)
         {
             instantiateObjects[i].transform.Translate(0, Note_Speed * 4, 0);
-            Judgement_line.transform.GetChild(0).localScale = new Vector3(Note_Speed / 5, 0.5f, 1);
+            Note.transform.GetChild(0).localScale = new Vector3(Note_Speed / 5, 0.5f, 1);
         }
     }
 
@@ -102,6 +179,20 @@ public class Gamemanager : MonoSigleton<Gamemanager>
         Player_GameOver();
     }
 
+    public void Player_HP_Heal()
+    {
+        if(Player_HP >= 900 & Player_HP <= 1000)
+        {
+            Player_HP = 1000;
+        }
+        else
+        {
+            Player_HP += 100;
+        }
+        
+        Player_HP_reorder();
+    }
+
     public void Player_HP_Reset()
     {
         Player_HP = 1000;
@@ -123,5 +214,4 @@ public class Gamemanager : MonoSigleton<Gamemanager>
             Score_Reset();
         }
     }
-
 }
